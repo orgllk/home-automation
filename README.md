@@ -1,47 +1,50 @@
+HOME AUTOMATION SYSTEM
+Main Features
 
-                                                HOME AUTOMATION
+    Automated Pump: Automatically manages water levels.
+    Alarm for Overflow: Alerts when water overflows, even when automation is off.
+    Automatic Curtains and Light Control: Adjusts based on time settings.
+    Automated Irrigation System: (Coming Soon) Ensures soil nutrition and hydration.
+    Theft Security: (Coming Soon) Detects unauthorized movement and triggers alarms.
+    Additional Features: (Coming Soon)
 
+Detailed Description
 
+    Automated Pump:
+        Utilizes an ultrasonic sensor to measure the water level.
+        Turns the pump off when a predefined water level is reached.
 
+    Overflow Alarm:
+        Works similar to the automated pump system.
+        Sounds an alarm when water overflows, useful if the automated system is disabled.
 
-I main features →
-1.automated pump
-2 Alarm on overflow of water if the automation is turned of 
-3 Automatic home Curtin and light buld 
-4 Automated irrigation system (coming soon)
-5 Theaf security (coming soon)
-6 coming soon 
-  
-II Detailed 
-1 Automated pump → it uses a ultrasonic sensor  to measure the distance 
-of water from the sensor and will turn off the pump when a certain level is reached 
-2 same as the automated pump but it make as sound when the water overflows when the automated system is turn off  
-3  automated home light & Curtin → it uses time which is 8am to 10pm for the curtain and 7pm to 8am for the outdoor light 
-4  Automated irrigation system → it uses a sensor to see the nutrition value of the soil and irrigate it at the right time 
-5 theaf security → it uses  laser sensor to detect movement and send signal which turn on a alarm from 11am to 8am *can be turned on any time 
- 
-III cost 
-1 The main ardunio bord cost 900rs
-2 ultrasonic sensor cossets 200$
-3 speaker 300 
-4 wire 50
-5 5 button   80
-6 8 led 50
-TOTAL COST = 2000 INR
-THIS IS FOR NOW  IT MAY CHANGE  
+    Automated Curtains and Lights:
+        Curtains: Open from 8 AM to 10 PM.
+        Outdoor Lights: Turn on at 7 PM and turn off at 8 AM.
 
+    Automated Irrigation System (Coming Soon):
+        Employs sensors to monitor soil nutrition levels.
+        Activates irrigation only when necessary.
 
+    Theft Security (Coming Soon):
+        Uses a laser sensor to detect movement.
+        Activates an alarm between 11 AM and 8 AM or manually as needed.
 
+Cost Estimation
+Component	Cost
+Arduino Board	₹900
+Ultrasonic Sensor	₹200
+Speaker	₹300
+Wires	₹50
+Buttons (5 units)	₹80
+LEDs (8 units)	₹50
 
+Total Cost: ₹2000 (subject to change)
+Developed by:
 
+Orgllk (Jagat)
+Published on:
 
+21/12/2024
 
-
-
-
-
-
-
-
-Made by                                                                                            published on
-orgllk (jagat)                                                                                      21/12/24
+Let me know if you'd like further refinements or additions!
