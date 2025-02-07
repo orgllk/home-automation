@@ -16,7 +16,7 @@ Detailed Description
 
     Overflow Alarm:
         Works similar to the automated pump system.
-        Sounds an alarm when water overflows, useful if the automated system is disabled.
+        Sounds an alarm when water overflows, useful if the pump automated system is disabled.
 
     Automated Curtains and Lights:
         Curtains: Open from 8 AM to 10 PM.
