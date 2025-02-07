@@ -15,6 +15,7 @@ int distance;
 #define trigPin                 6   // ultrasonic sensor
 #define motor                   7   // relay
 #define motorButtonLED          A1  // RELAY MOTOR BUTTON LED 
+#define motorAlarm              A2 // ARalM FOR MOTOR 
 /////MOTOR/////
 //-----X-----//
 ///END///
@@ -24,7 +25,6 @@ int distance;
 #define motorHS   10  // house motor for curtain
 // #define ire       11
 // #define homeButton   A1
-// #define motorAlarm A2 // ARM FOR MOTOR 
 unsigned long previousMillis = 0;  // Stores the time when last checked
 const unsigned long oneDay = 86400000;  // One day in milliseconds (24 hours)
 const unsigned long sevenPM = 19 * 60 * 60 * 1000;  // 7 PM in milliseconds
@@ -32,11 +32,12 @@ const unsigned long eightAM = (24 + 8) * 60 * 60 * 1000;  // 8 AM next day in mi
 ////END////
 //---X---//
 void setup() {
-  pinMode(ledPin,  OUTPUT);
-  digitalWrite(ledPin,LOW);  // Ensure the LED is off initially
-  pinMode(trigPin, OUTPUT); 
-  pinMode(echoPin,  INPUT); 
-  pinMode(motor,   OUTPUT);
+  pinMode(ledPin,       OUTPUT);
+  digitalWrite(ledPin,  LOW);  // Ensure the LED is off initially
+  pinMode(trigPin,      OUTPUT); 
+  pinMode(echoPin,      INPUT); 
+  pinMode(motor,        OUTPUT);
+  pinMode(motorAlarm,   OUTPUT);
   Serial.begin(9600); 
   /////end//////
   //----X----//
@@ -129,10 +130,13 @@ void hi() {
     digitalWrite(motor, HIGH);
     Serial.println("Off");
     digitalWrite(motorLED, HIGH);
+    digitalWrite(motorAlarm  , HIGH);
+
   } else {
     digitalWrite(motor, LOW);
     Serial.println("On");
     digitalWrite(motorLED, LOW);
+    digitalWrite(motorAlarm  , LOW);
   }
   
   delay(1000); // Adjust delay as needed (e.g., 1 second)
