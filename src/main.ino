@@ -1,7 +1,7 @@
 // made by orgllk-jagat
 // 0.2.1
 // home auto 
-// updated on 7/2/25
+// updated on 8/2/25
 #include <Arduino.h>
 char val;
 long duration;
@@ -14,8 +14,8 @@ int distance;
 #define echoPin                 5   // ultrasonic sensor
 #define trigPin                 6   // ultrasonic sensor
 #define motor                   7   // relay
-#define motorButtonLED          A1  // RELAY MOTOR BUTTON LED 
-#define motorAlarm              A2  // ARalM FOR MOTOR 
+#define motorButtonLED          14  // RELAY MOTOR BUTTON LED 
+#define motorAlarm              15  // ARalM FOR MOTOR 
 /////MOTOR/////
 //-----X-----//
 ///END///
@@ -24,8 +24,8 @@ int distance;
 #define buttonE                  9  // button for curtain for turning on the motor for curtain 
 #define motorHS                 10  // house motor for curtain
 #define irigationsenser         A3  // senser for moister of soil
-#define irigationsenserbutton   A4  // button to turn on and of moister senser 
-#define pumprelay               A5  // RELAY for turning the pump of irrigartion
+#define irigationsenserbutton   16  // button to turn on and of moister senser 
+#define pumprelay               17  // RELAY for turning the pump of irrigartion
 // #define ire       11
 // #define homeButton   A1
 unsigned long previousMillis = 0;  // Stores the time when last checked
