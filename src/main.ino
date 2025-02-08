@@ -74,6 +74,26 @@ void home (){
   }else{
     digitalWrite(motorHS ,LOW);
   }
+    ////////////////////
+    //-------x-------//
+    ////////////////////
+    ////irigation/////
+sensorValue = analogRead(irigationsenser);
+  // Print the sensor value to the Serial Monitor
+Serial.print("Soil Moisture Value: ");
+Serial.println(sensorValue);
+if (digitalRead(irigationsenserbutton) == HIGH){
+  // Check if the soil is dry
+  if (sensorValue > 600) {
+    // Turn the LED on
+    digitalWrite(pumprelay, HIGH); //turn the pump on when soil is dry
+  } 
+  if (sensorValue > 100){
+    // Turn the LED off
+    digitalWrite(pumprelay, LOW); // turn it  of
+  }
+}
+
 }
 ////////////
 //--X--//
