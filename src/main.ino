@@ -6,25 +6,26 @@
 char val;
 long duration;
 int distance;
-#define autoButton       13  // motor automation global on 
-#define globalLED        12  // ON
-#define ultrasonicLED    2   // ultrasonic LED
-#define motorLED         3   // motor LED
+#define autoButton              13  // motor automation global on 
+#define globalLED               12  // ON
+#define ultrasonicLED           2   // ultrasonic LED
+#define motorLED                3   // motor LED
 #define ultrasonicButtonCheck   4   // ultrasonic button check
 #define echoPin                 5   // ultrasonic sensor
 #define trigPin                 6   // ultrasonic sensor
 #define motor                   7   // relay
 #define motorButtonLED          A1  // RELAY MOTOR BUTTON LED 
 #define motorAlarm              A2  // ARalM FOR MOTOR 
-#define irigationsenser         A3  // senser for moister of soil
-#define irigationsenserbutton   A4  // button to turn on and of moister senser 
 /////MOTOR/////
 //-----X-----//
 ///END///
 //-----X-----//
-#define ledPin    8   // LED of outside home
-#define buttonE   9   // button for curtain for turning on the motor for curtain 
-#define motorHS   10  // house motor for curtain
+#define ledPin                   8  // LED of outside home
+#define buttonE                  9  // button for curtain for turning on the motor for curtain 
+#define motorHS                 10  // house motor for curtain
+#define irigationsenser         A3  // senser for moister of soil
+#define irigationsenserbutton   A4  // button to turn on and of moister senser 
+#define pumprelay               A5  // RELAY for turning the pump of irrigartion
 // #define ire       11
 // #define homeButton   A1
 unsigned long previousMillis = 0;  // Stores the time when last checked
@@ -51,6 +52,8 @@ void setup() {
   pinMode(ultrasonicButtonCheck,   INPUT);   // Set pin modes for buttons
   pinMode(motorButtonLED,          INPUT);
   pinMode(autoButton,              INPUT);
+  pinMode(pumprelay,               OUTPUT);
+  pinMode(irigationsenserbutton,   INPUT);
   // pinMode(homeButton,   INPUT);
   //pinMode(motorAlarm, OUTPUT);
 }
