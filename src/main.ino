@@ -1,7 +1,7 @@
 // made by orgllk-jagat
 // 0.2.1
 // home auto 
-// updated on 8/2/25
+// updated on 8/2/25 
 #include <Arduino.h>
 char val;
 long duration;
