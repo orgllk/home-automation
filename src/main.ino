@@ -25,7 +25,8 @@ int distance;
 #define motorHS                 10  // house motor for curtain
 #define irigationsenser         A3  // senser for moister of soil
 #define irigationsenserbutton   16  // button to turn on and of moister senser 
-#define pumprelay               17  // RELAY for turning the pump of irrigartion
+#define irepumprelay            17  // RELAY for turning the pump of irrigartion
+#define irepumpled              18  // idiectaer for pump on ro of 
 // #define ire       11
 // #define homeButton   A1
 unsigned long previousMillis = 0;  // Stores the time when last checked
@@ -52,8 +53,9 @@ void setup() {
   pinMode(ultrasonicButtonCheck,   INPUT);   // Set pin modes for buttons
   pinMode(motorButtonLED,          INPUT);
   pinMode(autoButton,              INPUT);
-  pinMode(pumprelay,               OUTPUT);
+  pinMode(irepumprelay,            OUTPUT);
   pinMode(irigationsenserbutton,   INPUT);
+  pinMode(irepumpled,              OUTPUT);
   // pinMode(homeButton,   INPUT);
   //pinMode(motorAlarm, OUTPUT);
 }
@@ -86,11 +88,14 @@ if (digitalRead(irigationsenserbutton) == HIGH){
   // Check if the soil is dry
   if (sensorValue > 600) {
     // Turn the LED on
-    digitalWrite(pumprelay, HIGH); //turn the pump on when soil is dry
+    digitalWrite(irepumpled, HIGH); //turn the pump on when soil is dry
+    digitalWrite(irepumpled  , HIGH);
   } 
   if (sensorValue > 100){
     // Turn the LED off
-    digitalWrite(pumprelay, LOW); // turn it  of
+    digitalWrite(irepumprelay, LOW); // turn it  of
+    digitalWrite(irepumpled  , LOW);
+
   }
 }
 
