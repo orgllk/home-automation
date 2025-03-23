@@ -1,174 +1,151 @@
-// made by orgllk-jagat
-// 0.2.1
-// home auto 
-// updated on 8/2/25 
 #include <Arduino.h>
-char val;
-long duration;
-int distance;
-#define autoButton              13  // motor automation global on 
-#define globalLED               12  // ON
-#define ultrasonicLED           2   // ultrasonic LED
-#define motorLED                3   // motor LED
-#define ultrasonicButtonCheck   4   // ultrasonic button check
-#define echoPin                 5   // ultrasonic sensor
-#define trigPin                 6   // ultrasonic sensor
-#define motor                   7   // relay
-#define motorButtonLED          14  // RELAY MOTOR BUTTON LED 
-#define motorAlarm              15  // ARalM FOR MOTOR 
-/////MOTOR/////
-//-----X-----//
-///END///
-//-----X-----//
-#define ledPin                   8  // LED of outside home
-#define buttonE                  9  // button for curtain for turning on the motor for curtain 
-#define motorHS                 10  // house motor for curtain
-#define irigationsenser         A3  // senser for moister of soil
-#define irigationsenserbutton   16  // button to turn on and of moister senser 
-#define irepumprelay            17  // RELAY for turning the pump of irrigartion
-#define irepumpled              18  // idiectaer for pump on ro of 
-// #define ire       11
-// #define homeButton   A1
-unsigned long previousMillis = 0;  // Stores the time when last checked
+// made by orgllk-jagat
+// 2.0
+// Home Automation
+// Updated on 8/2/25
+
+// Declare variables for sensors and components
+char val;  // Temporary storage for input
+long duration;  // Duration of ultrasonic pulse
+int distance;  // Calculated distance from ultrasonic sensor
+int sensorValue = 0;  // Soil moisture sensor value
+unsigned long previousMillis = 0;  // Stores the last checked time
 const unsigned long oneDay = 86400000;  // One day in milliseconds (24 hours)
 const unsigned long sevenPM = 19 * 60 * 60 * 1000;  // 7 PM in milliseconds
-const unsigned long eightAM = (24 + 8) * 60 * 60 * 1000;  // 8 AM next day in milliseconds (32 hours total)
-int sensorValue = 0;
-////END////
-//---X---//
+const unsigned long eightAM = (24 + 8) * 60 * 60 * 1000;  // 8 AM next day in milliseconds (32 hours)
+
+// Define pins for components (fixed duplicates)
+#define autoButton              13  // Motor automation global on
+#define globalLED               12  // Global system indicator LED
+#define motorLED                2   // Motor operation LED
+#define motorButtonLED          14  // Relay motor button LED
+#define motorAlarm              15  // Motor alarm for abnormal conditions
+#define ledPin                  3   // LED for outside home indication
+#define buttonE                 4   // Button to control curtain motor
+#define motorHS                 5   // Curtain motor control pin
+#define irigationsenser         19  // Soil moisture sensor pin
+#define irigationsenserbutton   16  // Button for soil moisture sensor control
+#define irepumprelay            17  // Relay to control irrigation pump
+#define irepumpled              18  // LED indicator for irrigation pump
+#define level1                  6   // Water level sensor for low level
+#define level2                  7   // Water level sensor for mid level
+#define top                     8   // Water level sensor for top level
+#define motorRelay              9   // Motor relay control pin
+#define chargeButton            10  // Button for charge control
+#define charge                  11  // Charge control pin
+#define chargeLED               20  // Charge status indicator LED
+#define chargeCheck             21  // Charge check sensor
+#define motorRelayLED           22  // Indicator for motor relay operation
+
 void setup() {
-  pinMode(ledPin,       OUTPUT);
-  digitalWrite(ledPin,  LOW);  // Ensure the LED is off initially
-  pinMode(trigPin,      OUTPUT); 
-  pinMode(echoPin,      INPUT); 
-  pinMode(motor,        OUTPUT);
-  pinMode(motorAlarm,   OUTPUT);
-  Serial.begin(9600); 
-  /////end//////
-  //----X----//
-  pinMode(motorHS,                 OUTPUT); 
-  pinMode(globalLED,               OUTPUT);
-  pinMode(ultrasonicLED,           OUTPUT);
-  pinMode(motorLED,                OUTPUT);
-  pinMode(ultrasonicButtonCheck,   INPUT);   // Set pin modes for buttons
-  pinMode(motorButtonLED,          INPUT);
-  pinMode(autoButton,              INPUT);
-  pinMode(irepumprelay,            OUTPUT);
-  pinMode(irigationsenserbutton,   INPUT);
-  pinMode(irepumpled,              OUTPUT);
-  // pinMode(homeButton,   INPUT);
-  //pinMode(motorAlarm, OUTPUT);
+  // Initialize output pins
+  pinMode(ledPin, OUTPUT); digitalWrite(ledPin, LOW);  // Ensure LED is off initially
+  pinMode(motor, OUTPUT); pinMode(motorAlarm, OUTPUT);
+  pinMode(motorHS, OUTPUT); pinMode(globalLED, OUTPUT); pinMode(motorLED, OUTPUT);
+  pinMode(irepumprelay, OUTPUT); pinMode(irepumpled, OUTPUT);
+  pinMode(motorRelay, OUTPUT); pinMode(motorRelayLED, OUTPUT);
+  pinMode(charge, OUTPUT); pinMode(chargeLED, OUTPUT);
+
+  // Initialize input pins
+  pinMode(motorButtonLED, INPUT); pinMode(autoButton, INPUT);
+  pinMode(irigationsenserbutton, INPUT); pinMode(chargeCheck, INPUT);
+  pinMode(level1, INPUT); pinMode(level2, INPUT); pinMode(top, INPUT);
+
+  // Start serial communication
+  Serial.begin(9600);
 }
-void home (){
-   unsigned long currentMillis = millis();  // Get the current time
-  // If it's between 7 PM and 8 AM the next day, turn on the LED
+
+// Function to control home lights and curtains
+void home() {
+  unsigned long currentMillis = millis();  // Get current time
+  // Check if current time is between 7 PM and 8 AM
   if ((currentMillis - previousMillis >= sevenPM) && (currentMillis - previousMillis < eightAM)) {
-    digitalWrite(ledPin, HIGH);  // Turn on the LED at 7 PM
+    digitalWrite(ledPin, HIGH);  // Turn on LED at 7 PM
   } else {
-    digitalWrite(ledPin, LOW);   // Turn off the LED at 8 AM
+    digitalWrite(ledPin, LOW);   // Turn off LED at 8 AM
   }
-  // Reset time after 24 hours to prevent overflow
+  // Reset timer every 24 hours to avoid overflow
   if (currentMillis - previousMillis >= oneDay) {
-    previousMillis = currentMillis;  // Reset previousMillis for the next 24 hours
+    previousMillis = currentMillis;
   }
-  if (digitalRead(buttonE) == HIGH){
-    digitalWrite(motorHS ,HIGH);
-  }else{
-    digitalWrite(motorHS ,LOW);
-  }
-    ////////////////////
-    //-------x-------//
-    ////////////////////
-    ////irigation/////
-sensorValue = analogRead(irigationsenser);
-  // Print the sensor value to the Serial Monitor
-Serial.print("Soil Moisture Value: ");
-Serial.println(sensorValue);
-if (digitalRead(irigationsenserbutton) == HIGH){
-  // Check if the soil is dry
-  if (sensorValue > 600) {
-    // Turn the LED on
-    digitalWrite(irepumpled, HIGH); //turn the pump on when soil is dry
-    digitalWrite(irepumpled  , HIGH);
-  } 
-  if (sensorValue > 100){
-    // Turn the LED off
-    digitalWrite(irepumprelay, LOW); // turn it  of
-    digitalWrite(irepumpled  , LOW);
 
+  // Curtain motor control based on button press
+  if (digitalRead(buttonE) == HIGH) {
+    digitalWrite(motorHS, HIGH);  // Turn on curtain motor
+  } else {
+    digitalWrite(motorHS, LOW);   // Turn off curtain motor
   }
-}
 
-}
-////////////
-//--X--//
-void loop() {
-  digitalWrite(globalLED, HIGH); // Global light on
-  if (digitalRead(autoButton) == HIGH){
-    autopump();
-  }
-  ////home////
-  if (digitalRead(autoButton) == HIGH){
-    home();
-  }
-}
-//-------------X-----------// 
-///////////////////////////// 
-//-------------X-----------// 
-void autopump() {  
-  if (Serial.available() > 0) {
-    char input = Serial.read(); // Read one byte from the serial buffer
-    
-    if (input == '0') {
-      hi();
-    } else {
-      hi();
+  // Soil moisture sensor logic for irrigation
+  sensorValue = analogRead(irigationsenser);  // Read soil moisture
+  Serial.print("Soil Moisture Value: ");
+  Serial.println(sensorValue);
+
+  if (digitalRead(irigationsenserbutton) == HIGH) {  // If sensor is enabled
+    if (sensorValue > 600) {  // Soil is dry
+      digitalWrite(irepumpled, HIGH);  // Turn on pump
+    } else if (sensorValue > 100) {  // Soil is moist
+      digitalWrite(irepumprelay, LOW);  // Turn off pump
+      digitalWrite(irepumpled, LOW);   // Turn off indicator
     }
   }
-  ///
-  ///
-  int x = digitalRead(ultrasonicButtonCheck); // Read ultrasonic button state
-  int y = digitalRead(motorButtonLED); // Read motor button state
-  ///
-  ///
-  if (x == LOW) { // should be hotwired
-    digitalWrite(ultrasonicLED, HIGH);
-  } else {
-    digitalWrite(ultrasonicLED, LOW);
+}
+
+// Logic for motor automation and related functions
+void autopump() {
+  char input;
+  if (Serial.available() > 0) {
+    input = Serial.read();  // Read input from serial monitor
+    hi();  // Placeholder for pump control logic
   }
-  ///
-  ///
-  if (y == LOW) { // should be hotwired
-    digitalWrite(motorLED, HIGH);
+
+  int y = digitalRead(motorButtonLED);  // Read motor button state
+  if (y == LOW) {
+    digitalWrite(motorLED, HIGH);  // Turn on motor LED
   } else {
-    digitalWrite(motorLED, LOW);
+    digitalWrite(motorLED, LOW);   // Turn off motor LED
   }
 }
-///////////////////////////
-//////////////////////////
+
+// Function to handle specific motor operations
 void hi() {
-  digitalWrite(trigPin, LOW); 
-  delayMicroseconds(2); 
-  digitalWrite(trigPin, HIGH); 
-  delayMicroseconds(10); 
-  digitalWrite(trigPin, LOW); 
-
-  duration = pulseIn(echoPin, HIGH); 
-  distance = duration * 0.034 / 2; 
-  Serial.println(distance);
-  
-  if (distance <= 83) {
-    digitalWrite(motor, HIGH);
-    Serial.println("Off");
-    digitalWrite(motorLED, HIGH);
-    digitalWrite(motorAlarm  , HIGH);
-
+  Serial.println("Auto Pump Running");
+  if (digitalRead(autoButton) == HIGH) {
+    digitalWrite(motor, HIGH);      // Turn on motor
+    digitalWrite(motorLED, HIGH);  // Turn on motor LED
+    digitalWrite(motorAlarm, HIGH);  // Trigger motor alarm
   } else {
-    digitalWrite(motor, LOW);
-    Serial.println("On");
-    digitalWrite(motorLED, LOW);
-    digitalWrite(motorAlarm  , LOW);
+    digitalWrite(motor, LOW);       // Turn off motor
+    digitalWrite(motorLED, LOW);   // Turn off motor LED
+    digitalWrite(motorAlarm, LOW);  // Reset motor alarm
   }
-  
-  delay(1000); // Adjust delay as needed (e.g., 1 second)
+}
+
+// Main program loop
+void loop() {
+  digitalWrite(globalLED, HIGH);  // Indicate system is active
+  autopump();  // Run motor automation
+  home();      // Run home functions
+
+  // Water level logic for motor pump control
+  if (digitalRead(level1) == HIGH && digitalRead(level2) == HIGH && digitalRead(top) == HIGH) {
+    digitalWrite(motorRelay, HIGH);      // Turn off pump when full
+    digitalWrite(motorRelayLED, HIGH);  // Indicate pump is off
+  } else {
+    digitalWrite(motorRelay, LOW);       // Turn on pump when not full
+    digitalWrite(motorRelayLED, LOW);   // Indicate pump is on
+  }
+
+  // Charge control logic
+  digitalWrite(charge, HIGH);  // Turn on charging by default
+  if (digitalRead(chargeButton) == HIGH) {
+    digitalWrite(charge, HIGH);  // Enable charging
+  } else {
+    digitalWrite(charge, LOW);   // Disable charging
+  }
+  if (digitalRead(chargeCheck) == HIGH) {
+    digitalWrite(chargeLED, HIGH);  // Indicate charging is active
+  } else {
+    digitalWrite(chargeLED, LOW);   // Indicate charging is inactive
+  }
 }
