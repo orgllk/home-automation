@@ -40,7 +40,7 @@ const unsigned long eightAM = (24 + 8) * 60 * 60 * 1000;  // 8 AM next day in mi
 void setup() {
   // Initialize output pins
   pinMode(ledPin, OUTPUT); digitalWrite(ledPin, LOW);  // Ensure LED is off initially
-  pinMode(motor, OUTPUT); pinMode(motorAlarm, OUTPUT);
+  pinMode(motorRelay, OUTPUT); pinMode(motorAlarm, OUTPUT);
   pinMode(motorHS, OUTPUT); pinMode(globalLED, OUTPUT); pinMode(motorLED, OUTPUT);
   pinMode(irepumprelay, OUTPUT); pinMode(irepumpled, OUTPUT);
   pinMode(motorRelay, OUTPUT); pinMode(motorRelayLED, OUTPUT);
